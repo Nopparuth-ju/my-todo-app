@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My List - Premium Dark Mode</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap');
+
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --accent: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.3);
+            --danger: #ef4444;
+            --success: #22c55e;
+            --glass: rgba(30, 41, 59, 0.7);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Prompt', sans-serif; }
+
+        body { 
+            background: radial-gradient(circle at top right, #1e293b, #0f172a);
+            color: var(--text); 
+            min-height: 100vh; 
+            padding: 20px; 
+            line-height: 1.5;
+        }
+
+        .container { max-width: 600px; margin: 0 auto; }
+
+        header { 
+            display: flex; 
+            align-items: center; 
+            margin-bottom: 35px; 
+            gap: 15px; 
+            padding: 18px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(56, 189, 248, 0.15);
+            margin-left: -20px;
+            margin-right: -20px;
+            border-radius: 0 0 24px 24px;
+        }
+
+        button { 
+            cursor: pointer; 
+            border: none; 
+            border-radius: 12px; 
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+        }
+
+        .btn-back { 
+            background: rgba(56, 189, 248, 0.08); 
+            color: var(--accent); 
+            padding: 10px 16px; 
+            font-size: 14px; 
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 14px; /* Keep back button slightly rounder as it looks better */
+        }
+
+        .btn-back:hover { 
+            background: var(--accent); 
+            color: var(--bg); 
+            transform: translateX(-3px);
+            box-shadow: 0 4px 12px var(--accent-glow);
+        }
+
+        h1 { 
+            font-size: 1.65rem; 
+            flex-grow: 1; 
+            font-weight: 700; 
+            background: linear-gradient(135deg, #ffffff 30%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+            text-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            margin: 0;
+        }
+
+        .btn-add { 
+            background: linear-gradient(135deg, var(--accent), #6366f1); 
+            color: white; 
+            padding: 14px; 
+            width: 100%; 
+            margin-top: 15px;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px var(--accent-glow);
+        }
+
+        .btn-add:hover { transform: translateY(-2px); box-shadow: 0 6px 20px var(--accent-glow); }
+
+        .btn-delete { background: rgba(239, 68, 68, 0.1); color: var(--danger); font-size: 12px; padding: 8px 14px; }
+        .btn-delete:hover { background: var(--danger); color: white; }
+
+        .btn-save { background: var(--success); color: white; padding: 10px 24px; }
+        .btn-cancel { background: transparent; color: var(--muted); border: 1px solid #334155; padding: 10px 24px; }
+
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+        .card { 
+            background: var(--card); 
+            padding: 24px; 
+            border-radius: 20px; 
+            text-align: center; 
+            position: relative; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 12px; 
+            border: 1px solid #334155;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .card:hover { transform: translateY(-6px); border-color: var(--accent); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); }
+
+        .list-item { 
+            background: var(--card); 
+            padding: 18px; 
+            border-radius: 16px; 
+            margin-bottom: 15px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border: 1px solid #334155;
+        }
+
+        .list-item:hover { border-color: var(--accent); }
+
+        .detail-view { 
+            background: var(--card); 
+            padding: 30px; 
+            border-radius: 24px; 
+            line-height: 1.7; 
+            border: 1px solid #334155;
+        }
+
+        .input-group { 
+            margin-top: 32px; 
+            padding: 24px;
+            background: var(--glass);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+            border: 1px solid #334155;
+        }
+
+        input, textarea { 
+            background: #0f172a; 
+            border: 1px solid #334155; 
+            color: white; 
+            padding: 14px; 
+            border-radius: 12px; 
+            outline: none; 
+            font-size: 15px;
+            transition: 0.2s;
+        }
+
+        input:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.1); }
+        textarea { min-height: 120px; resize: vertical; }
+
+        .hidden { display: none; }
+        .edit-controls { margin-top: 20px; display: flex; gap: 12px; justify-content: flex-end; }
+        
+        .empty-state { grid-column: 1/-1; text-align:center; padding: 60px 20px; color:var(--muted); font-style: italic; }
+
+        @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header id="header">
+            <button id="backBtn" class="btn-back hidden" onclick="goBack()">&larr; Back</button>
+            <h1 id="title">My Categories</h1>
+        </header>
+
+        <!-- View: Root Categories -->
+        <div id="view-root" class="view">
+            <div id="root-list" class="grid"></div>
+            <div class="input-group">
+                <h3 style="font-size: 1.1rem; color: var(--accent);">+ New Category</h3>
+                <input type="text" id="new-cat" placeholder="e.g. Work, Ideas, Goals">
+                <button class="btn-add" onclick="addCategory()">Create Category</button>
+            </div>
+        </div>
+
+        <!-- View: Items in Category -->
+        <div id="view-category" class="view hidden">
+            <div id="category-items"></div>
+            <div class="input-group">
+                <h3 style="font-size: 1.1rem; color: var(--accent);">+ New Item</h3>
+                <input type="text" id="new-item" placeholder="Item name...">
+                <textarea id="new-detail" placeholder="Additional details (optional)..."></textarea>
+                <button class="btn-add" onclick="addItem()">Add to List</button>
+            </div>
+        </div>
+
+        <!-- View: Item Details & Edit -->
+        <div id="view-detail" class="view hidden">
+            <div id="detail-display">
+                <div class="detail-view">
+                    <p id="detail-content" style="white-space: pre-wrap; color: var(--text);"></p>
+                </div>
+                <div class="edit-controls">
+                    <button class="btn-add" style="width: auto; margin: 0; padding: 12px 30px;" onclick="enableEdit()">Edit This Item</button>
+                </div>
+            </div>
+            
+            <div id="detail-edit" class="hidden">
+                <div class="input-group" style="margin-top: 0;">
+                    <label style="font-size: 0.85rem; color: var(--muted);">Title</label>
+                    <input type="text" id="edit-name">
+                    <label style="font-size: 0.85rem; color: var(--muted); margin-top: 10px;">Description</label>
+                    <textarea id="edit-detail-text"></textarea>
+                    <div class="edit-controls">
+                        <button class="btn-cancel" onclick="cancelEdit()">Cancel</button>
+                        <button class="btn-save" onclick="saveEdit()">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let db = JSON.parse(localStorage.getItem('h-list-db')) || [];
+        let path = []; // [] = root, [catId] = category, [catId, itemId] = detail
+
+        function save() {
+            localStorage.setItem('h-list-db', JSON.stringify(db));
+            render();
+        }
+
+        function render() {
+            document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
+            const backBtn = document.getElementById('backBtn');
+            const title = document.getElementById('title');
+
+            if (path.length === 0) {
+                document.getElementById('view-root').classList.remove('hidden');
+                backBtn.classList.add('hidden');
+                title.innerText = "My Categories";
+                const list = document.getElementById('root-list');
+                list.innerHTML = db.map(cat => `
+                    <div class="card" onclick="path=[${cat.id}]; render()">
+                        <div style="font-weight:600; font-size:1.15rem; color:white;">${cat.name}</div>
+                        <div style="font-size:0.85rem; color:var(--muted)">${cat.items.length} items</div>
+                        <button class="btn-delete" style="margin-top:10px" onclick="event.stopPropagation(); deleteCategory(${cat.id})">Delete</button>
+                    </div>
+                `).join('') || '<div class="empty-state">No categories yet. Let\'s create your first one!</div>';
+            } else if (path.length === 1) {
+                document.getElementById('view-category').classList.remove('hidden');
+                backBtn.classList.remove('hidden');
+                const cat = db.find(c => c.id === path[0]);
+                title.innerText = cat.name;
+                const list = document.getElementById('category-items');
+                list.innerHTML = cat.items.map(item => `
+                    <div class="list-item" onclick="path=[${cat.id}, ${item.id}]; render()">
+                        <span style="font-weight: 500;">${item.name}</span>
+                        <button class="btn-delete" onclick="event.stopPropagation(); deleteItem(${item.id})">Delete</button>
+                    </div>
+                `).join('') || '<div class="empty-state">Empty category. Add some items below!</div>';
+            } else if (path.length === 2) {
+                document.getElementById('view-detail').classList.remove('hidden');
+                document.getElementById('detail-display').classList.remove('hidden');
+                document.getElementById('detail-edit').classList.add('hidden');
+                backBtn.classList.remove('hidden');
+                
+                const cat = db.find(c => c.id === path[0]);
+                const item = cat.items.find(i => i.id === path[1]);
+                title.innerText = item.name;
+                document.getElementById('detail-content').innerText = item.detail || 'No description provided.';
+            }
+        }
+
+        function goBack() {
+            path.pop();
+            render();
+        }
+
+        function addCategory() {
+            const name = document.getElementById('new-cat').value.trim();
+            if (!name) return;
+            db.push({ id: Date.now(), name, items: [] });
+            document.getElementById('new-cat').value = '';
+            save();
+        }
+
+        function deleteCategory(id) {
+            if (confirm('Delete this category and all its items?')) {
+                db = db.filter(c => c.id !== id);
+                save();
+            }
+        }
+
+        function addItem() {
+            const name = document.getElementById('new-item').value.trim();
+            const detail = document.getElementById('new-detail').value.trim();
+            if (!name) return;
+            const cat = db.find(c => c.id === path[0]);
+            cat.items.push({ id: Date.now(), name, detail });
+            document.getElementById('new-item').value = '';
+            document.getElementById('new-detail').value = '';
+            save();
+        }
+
+        function deleteItem(id) {
+            if (confirm('Delete this item?')) {
+                const cat = db.find(c => c.id === path[0]);
+                cat.items = cat.items.filter(i => i.id !== id);
+                save();
+            }
+        }
+
+        function enableEdit() {
+            const cat = db.find(c => c.id === path[0]);
+            const item = cat.items.find(i => i.id === path[1]);
+            
+            document.getElementById('edit-name').value = item.name;
+            document.getElementById('edit-detail-text').value = item.detail || '';
+            
+            document.getElementById('detail-display').classList.add('hidden');
+            document.getElementById('detail-edit').classList.remove('hidden');
+        }
+
+        function cancelEdit() {
+            document.getElementById('detail-display').classList.remove('hidden');
+            document.getElementById('detail-edit').classList.add('hidden');
+        }
+
+        function saveEdit() {
+            const newName = document.getElementById('edit-name').value.trim();
+            const newDetail = document.getElementById('edit-detail-text').value.trim();
+            
+            if (!newName) return;
+            
+            const cat = db.find(c => c.id === path[0]);
+            const item = cat.items.find(i => i.id === path[1]);
+            
+            item.name = newName;
+            item.detail = newDetail;
+            
+            save();
+        }
+
+        render();
+    </script>
+</body>
+</html>
